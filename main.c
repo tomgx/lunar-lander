@@ -1,42 +1,62 @@
 #include "main.h"
 
+int main()
+{
 
-int main() {
-    
-    initscr();                              /* create the screen */
-    raw();				                    /* Line buffering disabled	*/
-    attron(A_UNDERLINE);
-    printw("Welcome to Lunar Lander\n");    /* print hello world */
-    attroff(A_UNDERLINE);
-    attron(A_STANDOUT);
-    printw("PLAY\n");
-    attroff(A_STANDOUT);
-    printw("EXIT\n");
-    noecho();			    /* Don't echo() while we do getch */
-    raw();				    /* Line buffering disabled	*/
-	keypad(stdscr, TRUE);	/* We get F1, F2 etc..		*/
-	noecho();			    /* Don't echo() while we do getch */
-	ch = getch();
+  getmaxyx(stdscr, yMax, xMax);
+  WINDOW *menu;
 
+  char choices[3][9] = {"PLAY", "SETTINGS", "EXIT"};
+  char letters[10];
 
-        switch (ch) {
-          case KEY_UP:       /* user presses UP arrow key */ 
-            printw("UP arrow is pressed\n");
-            break;
-          case KEY_DOWN:     /* user presses DOWN arrow key */
-            printw("DOWN arrow is pressed\n");
-            break;
-          case KEY_LEFT:     /* user presses LEFT arrow key */
-            printw("LEFT arrow is pressed\n");
-            break;
-          case KEY_RIGHT:    /* user presses RIGHT arrow key */
-            printw("RIGHT arrow is pressed\n");
-            break;
-     }
+  initscr();                                             /* initialize Ncurses; */
+  menu = newwin(yMax / 2, xMax / 2, yMax / 4, xMax / 4); /* create a new window */
+  box(menu, 0, 0);                                       /* sets borders for window */
 
-    refresh();  /* Print it on to the real screen */
-    getch();    /* wait for user input before exiting */
-    endwin();   /* end curses mode */
+  /* now print all the choices and highlight the first choice */
+  for (highlight = 0; highlight < 3; highlight++)
+  {
+    if (highlight == 0)
+      wattron(menu, A_STANDOUT); /* highlights the first item */
+    else
+      wattroff(menu, A_STANDOUT);
+    sprintf(letters, "%-9s", choices[highlight]); /* string print */
+    mvwprintw(menu, highlight + 1, 2, "%s", letters);
+  }
 
-    return 0;
+  wrefresh(menu); /* update the screen */
+  highlight = 0;
+  noecho();           /* disable echoing of characters on the screen */
+  keypad(menu, TRUE); /* enable keyboard input for the window */
+  curs_set(0);        /* hide the default screen cursor */
+
+  while (ch = wgetch(menu))
+  {                                               /* loop forever until user presses ctrl + c */
+    sprintf(letters, "%-9s", choices[highlight]); /* right pad with spaces to make the items appear with even width */
+    mvwprintw(menu, highlight + 1, 2, "%s", letters);
+
+    /* use a variable to increment or decrement the value based on the input */
+    switch (ch)
+    {
+    case KEY_UP:
+      highlight--;
+      highlight = (highlight < 0) ? 2 : highlight;
+      break;
+    case KEY_DOWN:
+      highlight++;
+      highlight = (highlight > 2) ? 0 : highlight;
+      break;
+    }
+
+    /* highlights the next item in the list */
+    wattron(menu, A_STANDOUT);
+    sprintf(letters, "%-9s", choices[highlight]);
+    mvwprintw(menu, highlight + 1, 2, "%s", letters);
+    wattroff(menu, A_STANDOUT);
+  }
+
+  delwin(menu);
+  endwin();
+
+  return 0;
 }
