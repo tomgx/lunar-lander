@@ -1,3 +1,3 @@
-#include <ncurses.h>
+//#include <ncurses.h>
 
-int ch, yMax, xMax, highlight = 0;
+//int ch, yMax, xMax, highlight = 0;
