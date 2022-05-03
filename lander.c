@@ -4,14 +4,14 @@
 
 #define DELAY 500000
 
-void lander()
+void terrainGen();
+
+int lander()
 {
     float x = 0, y = 4; /* starting position of ship */
     float max_y = 0, max_x = 0;
     float next_y = 0;
     float next_x = 0;
-    float vertical = 0.1;
-    float horizontal = 4.5;
 
     int timer = 0;
 
@@ -35,96 +35,32 @@ void lander()
         mvprintw(y, x, " /\\");
         mvprintw(y + 1, x, " **");
 
-        /* Hard coded test terrain */
-        // 1
-        mvprintw(21, 11, "/");
-        mvprintw(22, 10, "/");
-        mvprintw(23, 9, "/");
-        mvprintw(24, 8, "/");
-        mvprintw(25, 7, "/");
-        mvprintw(26, 6, "/");
-        mvprintw(27, 5, "/");
-        mvprintw(28, 4, "/");
-        mvprintw(29, 3, "/");
-
-        mvprintw(21, 12, "\\");
-        mvprintw(22, 13, "\\");
-        mvprintw(23, 14, "\\");
-        mvprintw(24, 15, "\\");
-        mvprintw(25, 16, "\\");
-        mvprintw(26, 17, "\\");
-        mvprintw(27, 18, "\\");
-        mvprintw(28, 19, "\\");
-        mvprintw(29, 20, "\\");
-        //
-
-        // 2
-        mvprintw(25, 25, "/2X");
-        mvprintw(26, 24, "/");
-        mvprintw(27, 23, "/");
-        mvprintw(28, 22, "/");
-        mvprintw(29, 21, "/");
-
-        mvprintw(24, 26, "___");
-        mvprintw(25, 28, " \\");
-        mvprintw(26, 29, " \\");
-        mvprintw(27, 30, " \\");
-        mvprintw(28, 31, " \\");
-        mvprintw(29, 32, " \\");
-        //
-
-        // 3
-
-        mvprintw(29, 34, "/");
-        mvprintw(28, 35, "/");
-        mvprintw(27, 36, "/");
-        mvprintw(26, 37, "/");
-
-        mvprintw(26, 38, "\\");
-        mvprintw(27, 39, "\\");
-        mvprintw(28, 40, "\\");
-        mvprintw(29, 41, "\\");
-        //
-
-        // 4
-
-        mvprintw(29, 42, "/");
-        mvprintw(28, 43, "/");
-        mvprintw(27, 44, "/");
-        mvprintw(26, 45, "/");
-        mvprintw(25, 46, "/");
-        mvprintw(24, 47, "/");
-        mvprintw(23, 48, "/");
-
-        mvprintw(23, 49, "\\");
-        mvprintw(24, 50, "\\");
-        mvprintw(25, 51, "\\");
-        mvprintw(26, 52, "\\");
-        mvprintw(27, 53, "\\");
-        mvprintw(28, 54, "\\");
-        mvprintw(29, 55, "\\");
-
-        /* end of terrain */
-
-        refresh();
+        terrainGen();
 
         // usleep(DELAY);
 
-        next_x = x + horizontal;
-        next_y = y + horizontal;
+        // next_x = x + horizontal;
+        // next_y = y + horizontal;
 
         /* TODO: implement collsion detection with border*/
         // direction *= -1;
         // direction_y *= -1;
 
-        y += vertical * (timer) / 2;
-        x += horizontal / 3;
+        /* convert float to int for display */
+        int x_int = (int)START_XSPEED - (timer) / 2.5;
+        int y_int = (int)y - 4; /* -4 because the ship starts at x(4) */
 
-        float xSpeed = (x / timer) * 5;
-        float ySpeed = (y * timer) / 10;
+        x += x_int;
+        y += START_YSPEED * (timer) / 2;
 
-        mvprintw(0, 30, "HORIZONTAL SPEED  %f", *&xSpeed);
-        mvprintw(1, 30, "VERTICAL SPEED  %f", *&ySpeed);
+        // float xSpeed = (STARTSPEED-x);
+        // float ySpeed = (y * timer);
+
+        mvprintw(0, 30, "HORIZONTAL SPEED  %d", *&x_int);
+        mvprintw(1, 30, "VERTICAL SPEED  %d", *&y_int);
+
+        // if()
+
         refresh();
         usleep(DELAY);
         timer++;
@@ -133,4 +69,68 @@ void lander()
     } // while (timer > 0);
 
     endwin(); /* close window */
+}
+
+void terrainGen()
+{
+    /* mountain #1 */
+    for (terrainY = 21, terrainX = 11; terrainY<30, terrainX> 2;)
+    {
+        mvprintw(terrainY, terrainX, "/");
+        terrainY++;
+        terrainX--;
+    }
+    for (terrainY = 21, terrainX = 12; terrainY > 30, terrainX < 21;)
+    {
+        mvprintw(terrainY, terrainX, "\\");
+        terrainY++;
+        terrainX++;
+    }
+
+    /* mountain #2 */
+    for (terrainY = 26, terrainX = 24; terrainY<30, terrainX> 20;)
+    {
+        mvprintw(25, 25, "/2X");
+        mvprintw(terrainY, terrainX, "/");
+        terrainY++;
+        terrainX--;
+    }
+    for (terrainY = 25, terrainX = 28; terrainY < 30, terrainX < 33;)
+    {
+        mvprintw(24, 26, "___");
+        mvprintw(terrainY, terrainX, " \\");
+        terrainY++;
+        terrainX++;
+    }
+
+    /* mountain #3 */
+    for (terrainY = 29, terrainX = 34; terrainY > 25, terrainX < 38;)
+    {
+        mvprintw(terrainY, terrainX, "/");
+        terrainY--;
+        terrainX++;
+    }
+    for (terrainY = 26, terrainX = 38; terrainY < 30, terrainX < 42;)
+    {
+        mvprintw(terrainY, terrainX, "\\");
+        terrainY++;
+        terrainX++;
+    }
+
+    /* mountain #4 */
+    for (terrainY = 29, terrainX = 42; terrainY > 22, terrainX < 49;)
+    {
+        mvprintw(terrainY, terrainX, "/");
+        terrainY--;
+        terrainX++;
+    }
+    for (terrainY = 23, terrainX = 49; terrainY < 30, terrainX < 56;)
+    {
+        mvprintw(terrainY, terrainX, "\\");
+        terrainY++;
+        terrainX++;
+    }
+    /* end of terrain */
+
+    refresh();
 }
