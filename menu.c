@@ -20,8 +20,8 @@ int menu()
       wattron(menu, A_STANDOUT); /* highlights the first item */
     else
       wattroff(menu, A_STANDOUT);
-    sprintf(letters, "%-9s", choices[highlight]); /* string print */
-    mvwprintw(menu, highlight + 1, 2, "%s", letters);
+      sprintf(letters, "%-9s", choices[highlight]); /* string print */
+      mvwprintw(menu, highlight + 1, 2, "%s", letters);
   }
 
   wrefresh(menu); /* update the screen */

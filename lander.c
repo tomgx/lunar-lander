@@ -5,72 +5,100 @@
 #define DELAY 500000
 
 void terrainGen();
+// void playerMovement();
 
 int lander()
 {
-    float x = 0, y = 4; /* starting position of ship */
+    // int x = 0, y = 4; /* starting position of ship */
     float max_y = 0, max_x = 0;
     float next_y = 0;
     float next_x = 0;
 
-    int timer = 0;
+    int yMove = 0;
+    int xMove = START_XSPEED;
 
     initscr();
     noecho();
     curs_set(FALSE);
+    cbreak();
+    keypad(stdscr, true);
 
     // Global var `stdscr` is created by the call to `initscr()`
     getmaxyx(stdscr, max_y, max_x);
 
-    // initscr();
-    // curs_set(0);
-
-    // do
-    while (1)
+    while (true)
     {
         clear();
-        mvprintw(1, 0, "COUNTER  %d", *&timer);
+        mvprintw(1, 0, "COUNTER  %d", yMove);
+        mvprintw(3, 0, "COUNTER2  %d", xMove);
         mvprintw(0, 0, "SCORE  0000");
         mvprintw(2, 0, "FUEL  1000");
         mvprintw(y, x, " /\\");
         mvprintw(y + 1, x, " **");
-
         terrainGen();
 
-        // usleep(DELAY);
-
-        // next_x = x + horizontal;
-        // next_y = y + horizontal;
-
-        /* TODO: implement collsion detection with border*/
-        // direction *= -1;
-        // direction_y *= -1;
-
-        /* convert float to int for display */
-        int x_int = (int)START_XSPEED - (timer) / 2.5;
-        int y_int = (int)y - 4; /* -4 because the ship starts at x(4) */
-
-        x += x_int;
-        y += START_YSPEED * (timer) / 2;
-
-        // float xSpeed = (STARTSPEED-x);
-        // float ySpeed = (y * timer);
-
-        mvprintw(0, 30, "HORIZONTAL SPEED  %d", *&x_int);
-        mvprintw(1, 30, "VERTICAL SPEED  %d", *&y_int);
-
-        // if()
+        mvprintw(0, 30, "HORIZONTAL SPEED  %d", xMove);
+        mvprintw(1, 30, "VERTICAL SPEED  %d", yMove);
 
         refresh();
-        usleep(DELAY);
-        timer++;
 
-        // napms(SECOND); /* 1 second delay */
-    } // while (timer > 0);
+        /*display physics values*/
+        // int displayX = (int)START_XSPEED - (timer) / 2.5;
+        // int displayY = (int)y - 4; /* -4 because the ship starts at x(4) */
+
+        int intPut;
+        intPut = getch(); // get user input
+
+        nodelay(stdscr, TRUE); // use of no delay so the game doesn't pause to wait for user input
+
+        /*Vertical Movement*/
+        if (intPut == KEY_UP)
+        {
+            yMove--;
+            halfdelay(3);
+        }
+        else if (yMove == 5)
+        {
+            yMove = 5; /*clamp (y)vertical velocity*/
+        }
+        else if (yMove != 5)
+        {
+            yMove++;
+        }
+
+        /*Horizontal Movement*/
+        if (intPut == KEY_LEFT)
+        {
+            xMove--;
+        }
+        else if (intPut == KEY_RIGHT)
+        {
+            xMove++;
+        }
+        else if (xMove > 0)
+        {
+            xMove--;
+        }
+        else if (xMove < 0)
+        {
+            xMove++;
+        }
+        else if (xMove == 0)
+        {
+            xMove = 0; /*clamp (x)horizontal velocity*/
+        }
+
+        /*set x and y coords*/
+        x += xMove;
+        y += yMove;
+
+        refresh();
+    }
 
     endwin(); /* close window */
 }
 
+/* For the landing pad. determine whether the lander lands on a certain symbol. e.g. --*/
 void terrainGen()
 {
     /* mountain #1 */
