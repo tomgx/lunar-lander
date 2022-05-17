@@ -61,6 +61,4 @@ void terrainGen()
         terrainX++;
     }
     /* end of terrain */
-
-    refresh();
 }

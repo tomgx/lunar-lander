@@ -4,11 +4,10 @@
 int lander()
 {
     float max_y = 0, max_x = 0;
-    int yMove = 0;
+    int yMove = START_YSPEED;
     int xMove = START_XSPEED;
+    int fuel = START_FUEL;
     int userInput;
-    int fuel = 100;
-    ;
 
     initscr();
     noecho();
@@ -19,13 +18,16 @@ int lander()
     // Global var `stdscr` is created by the call to `initscr()`
     getmaxyx(stdscr, max_y, max_x);
 
+    mvprintw(10, 10, "Press ENTER to start game");
+    getch();
+
     do
     {
         clear();
         terrainGen();
 
         mvprintw(0, 30, "HORIZONTAL SPEED  %d", xMove);
-        mvprintw(1, 30, "VERTICAL SPEED  %d", yMove);
+        mvprintw(1, 30, "VERTICAL SPEED  %d", yMove+2);
         mvprintw(0, 0, "SCORE  0000");
         mvprintw(1, 0, "FUEL  %d", fuel);
         mvprintw(y, x, " /\\");
@@ -33,16 +35,15 @@ int lander()
 
         refresh();
 
-        userInput = getch(); // get user input
-
-        nodelay(stdscr, TRUE); // use of no delay so the game doesn't pause to wait for user input
+        // nodelay(stdscr, TRUE); // use of no delay so the game doesn't pause to wait for user input
+        halfdelay(5); /*half delay used to make it easier to control the ship*/
+        userInput = getch();   // get user input
 
         /*Vertical Movement*/
         if (userInput == KEY_UP)
         {
             fuel--;
             yMove--;
-            halfdelay(4); /*half delay used to make it easier to control the ship*/
         }
         else if (yMove == 8)
         {
@@ -58,13 +59,11 @@ int lander()
         {
             fuel--;
             xMove--;
-            halfdelay(4);
         }
         else if (userInput == KEY_RIGHT)
         {
             fuel--;
             xMove++;
-            halfdelay(4);
         }
         else if (xMove > 0)
         {
@@ -83,21 +82,22 @@ int lander()
         x += xMove;
         y += yMove;
 
+        
+
         refresh();
     } while (fuel != 0);
 
-    if(fuel == 0){
+    // if (fuel == 0)
+    // {
         clear();
-        for(int i = 5; i >= 0; i--){
-            mvprintw(10,10, "GAME OVER! You have no fuel");
-            mvprintw(11,16, "Restarting in %d",i);
+        for (int i = 5; i >= 0; i--)
+        {
+            mvprintw(10, 10, "GAME OVER! You have no fuel");
+            mvprintw(11, 16, "Restarting in %d", i);
             usleep(1000000);
             refresh();
-        }
+        // }
         // need to make game loop
-
-        
-        
     }
 
     endwin(); /* close window */
