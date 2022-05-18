@@ -1,20 +1,27 @@
-int terrainX, terrainY;
+int terrainX, terrainY, terrainX1, terrainY1, terrainX2, terrainY2;
+
+int arrX[] = {11, 10, 9, 8, 7, 6, 5, 4, 3};
+
+int arrY[] = {21, 22, 23, 24, 25, 26, 27, 28, 29};
+int arrLen = sizeof arrY / sizeof arrY[0];
+
+void landerCollision()
+{
+    mvprintw(10, 10, "Collision Detected");
+    // exit_curses(1);
+}
 
 /* For the landing pad. determine whether the lander lands on a certain symbol. e.g. --*/
 void terrainGen()
 {
     /* mountain #1 */
-    for (terrainY = 21, terrainX = 11; terrainY<30, terrainX> 2;)
+    for (int i = 0; i < arrLen; i++)
     {
-        mvprintw(terrainY, terrainX, "/");
-        terrainY++;
-        terrainX--;
-    }
-    for (terrainY = 21, terrainX = 12; terrainY > 30, terrainX < 21;)
-    {
-        mvprintw(terrainY, terrainX, "\\");
-        terrainY++;
-        terrainX++;
+        mvprintw(arrY[i], arrX[i], "#");                                                          // print left side of mountain
+        if ((x + 1 == arrX[i]) && (y + 1 >= arrY[i]) || (y + 1 >= arrY[i]) && (x + 2 == arrX[i])) // collision detection
+        {
+            landerCollision();
+        }
     }
 
     /* mountain #2 */
@@ -27,7 +34,9 @@ void terrainGen()
     }
     for (terrainY = 25, terrainX = 28; terrainY < 30, terrainX < 33;)
     {
+        attron(COLOR_PAIR(4));
         mvprintw(24, 26, "___");
+        attroff(COLOR_PAIR(4));
         mvprintw(terrainY, terrainX, " \\");
         terrainY++;
         terrainX++;
