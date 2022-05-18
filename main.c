@@ -1,11 +1,11 @@
 #include "main.h"
-#include "menu.c"
+//#include "menu.c"
 #include "lander.c"
 
-int main(int argc, char *argv[])
+void main()
 {
   lander();
   //menu();
 
-  return 0;
+  return;
 }
