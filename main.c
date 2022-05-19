@@ -38,5 +38,6 @@ void main()
     fuel = 100;
     break;
   }
+  score = 0;
   lander();
 }
