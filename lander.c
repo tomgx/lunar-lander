@@ -16,22 +16,13 @@ int lander()
     width = 128;
     start_y = start_x = 0;
 
-    initscr();
-    keypad(stdscr, true);
-    noecho();
-    curs_set(FALSE);
     cbreak();
-    start_color(); /* Start the color functionality */
-
     init_pair(1, COLOR_RED, COLOR_BLACK);
     init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(3, COLOR_WHITE, COLOR_BLACK);
     init_pair(4, COLOR_GREEN, COLOR_BLACK);
 
     // getmaxyx(stdscr, max_y, max_x);
-
-    mvprintw(15, 48, "Press Any Key To Continue");
-    getch();
 
     do
     {
@@ -139,6 +130,7 @@ int lander()
 
     } while (fuel > 0);
 
+    void main();
     while (true)
     {
 
@@ -154,11 +146,11 @@ int lander()
         if (userInput == 'r' || userInput == 'R') // restart game if user press r
         {
             clear();
-            x = -8, y = 4;
+            x = START_X, y = START_Y;
             yMove = START_YSPEED;
             xMove = START_XSPEED;
             fuel = START_FUEL;
-            lander();
+            main();
         }
         else if (userInput == 'q' || userInput == 'Q') // quit program is user presses q
         {
@@ -166,4 +158,12 @@ int lander()
             exit(0);  // exit program
         }
     }
+}
+
+void pressToStart()
+{
+    cbreak();
+    mvprintw(15, 48, "Press Any Key To Continue");
+    getch();
+    lander();
 }

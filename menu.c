@@ -1,62 +1,76 @@
 #include "menu.h"
 
-int menu()
+void titleLogo()
 {
+  init_pair(1, COLOR_RED, COLOR_BLACK);
+  init_pair(2, COLOR_BLUE, COLOR_BLACK);
+  init_pair(3, COLOR_MAGENTA, COLOR_BLACK);
+  init_pair(4, COLOR_GREEN, COLOR_BLACK);
+  init_pair(5, COLOR_CYAN, COLOR_BLACK);
 
-  getmaxyx(stdscr, yMax, xMax);
-  WINDOW *menu;
+  mvprintw(6, 35, "  MM         MM    MM   MMMM  MM       M       MMMMMMM     ");
+  mvprintw(7, 35, "  88         88    88   88 MM 88      AVV      88   98     ");
+  mvprintw(8, 35, "  88         88    88   88  MW88     AV VA     88MMM68     ");
+  mvprintw(9, 35, "  88         88    88   88   Mw8    AVAVAVA    88  VKA     ");
+  mvprintw(10, 35, "  88888888    Xx88xX    88    W8   AV     VA   88   VAA   ");
 
-  char choices[3][9] = {"PLAY", "SETTINGS", "EXIT"};
-  char letters[10];
+  mvprintw(12, 43, "  M      AA   NN  N  MAAD.  MMMN  9MM6    ");
+  mvprintw(13, 43, "  M     A==A  N M N  M   D  M##   M++W    ");
+  mvprintw(14, 43, "  MWWW  W  W  N  NN  MMMD`  MWWN  M ^Kn   ");
+};
 
-  initscr();                                             /* initialize Ncurses; */
-  menu = newwin(yMax / 2, xMax / 2, yMax / 4, xMax / 4); /* create a new window */
-  box(menu, 0, 0);                                       /* sets borders for window */
+void titleControls()
+{
+  mvprintw(16, 44, "---------------------------------------");
+  mvprintw(17, 54, "            [^]                        ");
+  mvprintw(18, 54, "CONTROLS: [<] [>]                      ");
+}
 
-  /* now print all the choices and highlight the first choice */
-  for (highlight = 0; highlight < 3; highlight++)
-  {
-    if (highlight == 0)
-      wattron(menu, A_STANDOUT); /* highlights the first item */
-    else
-      wattroff(menu, A_STANDOUT);
-      sprintf(letters, "%-9s", choices[highlight]); /* string print */
-      mvwprintw(menu, highlight + 1, 2, "%s", letters);
-  }
+void titleRules()
+{
+  attron(A_UNDERLINE);
+  mvprintw(20, 57, "HOW TO PLAY");
+  attroff(A_UNDERLINE);
+  attron(A_BOLD);
+  mvprintw(21, 16, "| Land on landing pad with a Vertical velocity of less than or equal to 3 to gain points and fuel |");
+  mvprintw(22, 35, "| Crashing removes 20 units of fuel from the lander |");
+  attroff(A_BOLD);
+  mvprintw(22, 35, "| Crashing removes 20 units of fuel from the lander |");
+  attron(A_UNDERLINE);
+  mvprintw(24, 33, "DIFFICULTY RATING DETERMINES HOW MUCH FUEL YOU START WITH");
+  attroff(A_UNDERLINE);
+  attron(A_STANDOUT);
+  mvprintw(26, 55, " SELECT 1 - 4 ");
+  attroff(A_STANDOUT);
 
-  wrefresh(menu); /* update the screen */
-  highlight = 0;
-  noecho();           /* disable echoing of characters on the screen */
-  keypad(menu, TRUE); /* enable keyboard input for the window */
-  curs_set(0);        /* hide the default screen cursor */
+  mvprintw(27, 46, "(1)");
+  attron(COLOR_PAIR(4));
+  mvprintw(27, 56, "(2)");
+  attroff(COLOR_PAIR(4));
+  attron(COLOR_PAIR(3));
+  mvprintw(27, 66, "(3)");
+  attroff(COLOR_PAIR(3));
+  attron(COLOR_PAIR(1));
+  mvprintw(27, 76, "(4)");
+  attroff(COLOR_PAIR(1));
 
-  while (ch = wgetch(menu))
-  {                                               /* loop forever until user presses ctrl + c */
-    sprintf(letters, "%-9s", choices[highlight]); /* right pad with spaces to make the items appear with even width */
-    mvwprintw(menu, highlight + 1, 2, "%s", letters);
+  mvprintw(28, 43, "100 FUEL   80 FUEL   60 FUEL   40 FUEL");
+}
 
-    /* use a variable to increment or decrement the value based on the input */
-    switch (ch)
-    {
-    case KEY_UP:
-      highlight--;
-      highlight = (highlight < 0) ? 2 : highlight;
-      break;
-    case KEY_DOWN:
-      highlight++;
-      highlight = (highlight > 2) ? 0 : highlight;
-      break;
-    }
-
-    /* highlights the next item in the list */
-    wattron(menu, A_STANDOUT);
-    sprintf(letters, "%-9s", choices[highlight]);
-    mvwprintw(menu, highlight + 1, 2, "%s", letters);
-    wattroff(menu, A_STANDOUT);
-  }
-
-  delwin(menu);
-  endwin();
-
-  return 0;
+void titleMoon()
+{
+  mvprintw(5, 3, "          ___---___.            ");
+  mvprintw(6, 3, "       ..--        *--..        ");
+  mvprintw(7, 3, "     ./   ()       .-.  \\.     ");
+  mvprintw(8, 3, "     /   o    .   (   )   \\    ");
+  mvprintw(9, 3, "    / .            '-'     \\   ");
+  mvprintw(10, 3, "   | O         .      .     |  ");
+  mvprintw(11, 3, "  |                .    o   |  ");
+  mvprintw(12, 3, "  |    o        .*--.     . |  ");
+  mvprintw(13, 3, "  | .          |    |       |  ");
+  mvprintw(14, 3, "   \\          `.__.'   .    / ");
+  mvprintw(15, 3, "    \\               o      /  ");
+  mvprintw(16, 3, "     `\\  o    ()         /'   ");
+  mvprintw(17, 3, "        `--___   ___--'        ");
+  mvprintw(18, 3, "              ---              ");
 }

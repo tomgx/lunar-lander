@@ -27,7 +27,7 @@ int mtnTwoRightSize = sizeof mtnTwoRightY / sizeof mtnTwoRightY[0];
 int landPadOne[] = {23, 24, 25, 26};
 int sizeOfLandPadOne = sizeof landPadOne / sizeof landPadOne[0];
 
-int lander();
+void pressToStart();
 
 void landSuccess()
 {
@@ -40,10 +40,10 @@ void landSuccess()
     attroff(COLOR_PAIR(4));
     fuel = fuel + 15;
     score = score + 50;
-    x = -8, y = 4;
+    x = START_X, y = START_Y;
     yMove = START_YSPEED;
     xMove = START_XSPEED;
-    lander();
+    pressToStart();
 }
 
 void landerCollision()
@@ -54,10 +54,10 @@ void landerCollision()
     mvprintw(14, 48, "You have crashed: -20 FUEL");
     attroff(COLOR_PAIR(1));
     fuel = fuel - 20;
-    x = -8, y = 4;
+    x = START_X, y = START_Y;
     yMove = START_YSPEED;
     xMove = START_XSPEED;
-    lander();
+    pressToStart();
 }
 
 // Terrain Generation
