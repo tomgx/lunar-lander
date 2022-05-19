@@ -27,15 +27,16 @@ int mtnTwoRightSize = sizeof mtnTwoRightY / sizeof mtnTwoRightY[0];
 int landPadOne[] = {23, 24, 25, 26};
 int sizeOfLandPadOne = sizeof landPadOne / sizeof landPadOne[0];
 
-void lander();
+int lander();
 
 void landSuccess()
 {
+    clear();
     yMove = 0;
     xMove = 0;
-    //mvprintw(13, 50, "Press ANY KEY continue");
+    // mvprintw(13, 50, "Press ANY KEY continue");
     attron(COLOR_PAIR(4));
-    mvprintw(14, 48, "Successful Landing: +15 Fuel");
+    mvprintw(14, 47, "Successful Landing: +15 Fuel");
     attroff(COLOR_PAIR(4));
     fuel = fuel + 15;
     score = score + 50;
@@ -46,9 +47,9 @@ void landSuccess()
 }
 
 void landerCollision()
-{  
-    
-    //mvprintw(13, 50, "Press ANY KEY continue");
+{
+    clear();
+    // mvprintw(13, 50, "Press ANY KEY continue");
     attron(COLOR_PAIR(1));
     mvprintw(14, 48, "You have crashed: -20 FUEL");
     attroff(COLOR_PAIR(1));
@@ -57,23 +58,9 @@ void landerCollision()
     yMove = START_YSPEED;
     xMove = START_XSPEED;
     lander();
-
-    // TODO: go to the beginning of game loop
-    // exit_curses(1);
 }
 
-void starsBackground()
-{
-    int randomY = rand() % 32;
-    int randomX = rand() % 128;
-
-    for (int i = 0; i < 40; i++)
-    {
-        mvprintw(randomY, randomX, "*");
-    }
-}
-
-
+// Terrain Generation
 void terrainGen()
 {
 
@@ -135,22 +122,24 @@ void terrainGen()
         {
             landerCollision();
         }
+        /*landing pad 1*/
         attron(COLOR_PAIR(4));
         mvprintw(26, 23, "____");
         attroff(COLOR_PAIR(4));
-        for(int j = 0; j < sizeOfLandPadOne; j++){
-        if ((x + 1 == landPadOne[j]) && (y + 1 >= 27) || (y + 1 >= 27) && (x + 2 == landPadOne[j])) //
+        for (int j = 0; j < sizeOfLandPadOne; j++)
         {
-            if (yMove < 3 & xMove == 0)
+            if ((x + 1 == landPadOne[j]) && (y + 1 >= 27) || (y + 1 >= 27) && (x + 2 == landPadOne[j])) //
             {
-                y = 25;
-                landSuccess();
+                if (yMove <= 3 & xMove == 0)
+                {
+                    y = 25;
+                    landSuccess();
+                }
+                else
+                {
+                    landerCollision();
+                }
             }
-            else
-            {
-                landerCollision();
-            }
-        }
         }
     }
 

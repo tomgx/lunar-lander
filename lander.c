@@ -1,11 +1,11 @@
 #include "lander.h"
 #include "terrainGen.c"
 
-void lander()
+int lander()
 {
     WINDOW *window;
 
-    //float max_y = 0, max_x = 0;
+    // float max_y = 0, max_x = 0;
 
     int userInput;
     int height, width, start_y, start_x;
@@ -17,10 +17,10 @@ void lander()
     start_y = start_x = 0;
 
     initscr();
+    keypad(stdscr, true);
     noecho();
     curs_set(FALSE);
     cbreak();
-    keypad(stdscr, true);
     start_color(); /* Start the color functionality */
 
     init_pair(1, COLOR_RED, COLOR_BLACK);
@@ -28,7 +28,7 @@ void lander()
     init_pair(3, COLOR_WHITE, COLOR_BLACK);
     init_pair(4, COLOR_GREEN, COLOR_BLACK);
 
-    //getmaxyx(stdscr, max_y, max_x);
+    // getmaxyx(stdscr, max_y, max_x);
 
     mvprintw(15, 48, "Press Any Key To Continue");
     getch();
@@ -40,9 +40,8 @@ void lander()
         refresh();
         box(window, 0, 0);
         wrefresh(window);
-
-        // starsBackground();
         terrainGen();
+
         attron(COLOR_PAIR(1));
         // wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
         attroff(COLOR_PAIR(1));
@@ -140,28 +139,31 @@ void lander()
 
     } while (fuel > 0);
 
-    /*Game Restart*/
-
-    mvprintw(10, 10, "GAME OVER! You have no fuel");
-    mvprintw(11, 10, "Press Enter to Play Again");
-
-    userInput = getch(); // get user input
-
-    if (userInput == KEY_ENTER)
+    while (true)
     {
-        mvprintw(15, 10, "TEST");
-        fuel = 100;
-        x = -8, y = 4;
-        yMove = START_YSPEED;
-        xMove = START_XSPEED;
-        void main();
-    }
-    else if (userInput != KEY_UP)
-    {
-        for (int i = 1; i < 5; i++)
+
+        userInput = getch(); // get user input
+        attron(COLOR_PAIR(1));
+        mvprintw(13, 48, "GAME OVER! You have no fuel");
+        attroff(COLOR_PAIR(1));
+        attron(A_BOLD);
+        mvprintw(14, 50, "Press 'R' to Play Again");
+        mvprintw(15, 49, "Press 'Q' to Quit the Game");
+        attroff(A_BOLD);
+        refresh();
+        if (userInput == 'r' || userInput == 'R') // restart game if user press r
         {
-            mvprintw(15, 48, "Exiting in: %d", i);
-            endwin(); /* close window */
+            clear();
+            x = -8, y = 4;
+            yMove = START_YSPEED;
+            xMove = START_XSPEED;
+            fuel = START_FUEL;
+            lander();
+        }
+        else if (userInput == 'q' || userInput == 'Q') // quit program is user presses q
+        {
+            endwin(); // exit ncurses
+            exit(0);  // exit program
         }
     }
 }
