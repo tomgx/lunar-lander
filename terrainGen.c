@@ -34,7 +34,6 @@ void landSuccess()
     clear();
     yMove = 0;
     xMove = 0;
-    // mvprintw(13, 50, "Press ANY KEY continue");
     attron(COLOR_PAIR(4));
     mvprintw(14, 47, "Successful Landing: +15 Fuel");
     attroff(COLOR_PAIR(4));
@@ -48,8 +47,7 @@ void landSuccess()
 
 void landerCollision()
 {
-    clear();
-    // mvprintw(13, 50, "Press ANY KEY continue");
+    erase();
     attron(COLOR_PAIR(1));
     mvprintw(14, 48, "You have crashed: -20 FUEL");
     attroff(COLOR_PAIR(1));

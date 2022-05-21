@@ -37,7 +37,7 @@ void titleRules()
   attroff(A_BOLD);
   mvprintw(22, 35, "| Crashing removes 20 units of fuel from the lander |");
   attron(A_UNDERLINE);
-  mvprintw(24, 33, "DIFFICULTY RATING DETERMINES HOW MUCH FUEL YOU START WITH");
+  mvprintw(24, 25, "DIFFICULTY RATING DETERMINES HOW MUCH FUEL YOU START WITH AND WHAT MAP YOU PLAY");
   attroff(A_UNDERLINE);
   attron(A_STANDOUT);
   mvprintw(26, 55, " SELECT 1 - 4 ");
@@ -55,6 +55,9 @@ void titleRules()
   attroff(COLOR_PAIR(1));
 
   mvprintw(28, 43, "100 FUEL   80 FUEL   60 FUEL   40 FUEL");
+  attron(COLOR_PAIR(5));
+  mvprintw(29, 43, "  MAP 1     MAP 2     MAP 3     MAP 4");
+  attroff(COLOR_PAIR(5));
 }
 
 void titleMoon()

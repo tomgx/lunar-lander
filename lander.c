@@ -4,7 +4,7 @@
 int lander()
 {
     WINDOW *window;
-
+    
     // float max_y = 0, max_x = 0;
 
     int userInput;
@@ -22,20 +22,23 @@ int lander()
     init_pair(3, COLOR_WHITE, COLOR_BLACK);
     init_pair(4, COLOR_GREEN, COLOR_BLACK);
 
-    // getmaxyx(stdscr, max_y, max_x);
+
 
     do
     {
-        clear();
-        window = newwin(height, width, start_y, start_x); /* create a new window */
+        erase();
         refresh();
+        window = newwin(height, width, start_y, start_x); /* create a new window */
         box(window, 0, 0);
-        wrefresh(window);
-        terrainGen();
-
-        attron(COLOR_PAIR(1));
-        // wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
+                attron(COLOR_PAIR(1));
+         wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
         attroff(COLOR_PAIR(1));
+        wrefresh(window);
+
+        perlinNoise(chooseLevel[map]); // terrain generation after user selects difficulty
+
+
+
         mvprintw(1, 35, "ALTITUDE:         %d", abs(y - 29));
         mvprintw(2, 35, "HORIZONTAL SPEED: %d", xMove);
         mvprintw(3, 35, "VERTICAL SPEED:   %d", yMove);
@@ -130,7 +133,7 @@ int lander()
 
     } while (fuel > 0);
 
-    void main();
+    void initialize();
     while (true)
     {
 
@@ -150,7 +153,7 @@ int lander()
             yMove = START_YSPEED;
             xMove = START_XSPEED;
             fuel = START_FUEL;
-            main();
+            initialize();
         }
         else if (userInput == 'q' || userInput == 'Q') // quit program is user presses q
         {
