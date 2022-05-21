@@ -1,4 +1,4 @@
-#include "terrainGen.h"
+#include "terrainAndCollision.h"
 
 int landSuccess(int multiplier)
 {

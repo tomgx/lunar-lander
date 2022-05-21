@@ -1,5 +1,5 @@
 #include "lander.h"
-#include "terrainGen.c"
+#include "terrainAndCollision.c"
 
 int lander()
 {
