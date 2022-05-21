@@ -4,17 +4,15 @@
 int lander()
 {
     WINDOW *window;
-    
-    // float max_y = 0, max_x = 0;
 
     int userInput;
-    int height, width, start_y, start_x;
+    int height, width, startY, startX;
     int next_x = 0;
     int direction = 0;
 
     height = 32;
     width = 128;
-    start_y = start_x = 0;
+    startY = startX = 0;
 
     cbreak();
     init_pair(1, COLOR_RED, COLOR_BLACK);
@@ -22,22 +20,18 @@ int lander()
     init_pair(3, COLOR_WHITE, COLOR_BLACK);
     init_pair(4, COLOR_GREEN, COLOR_BLACK);
 
-
-
     do
     {
         erase();
         refresh();
-        window = newwin(height, width, start_y, start_x); /* create a new window */
+        window = newwin(height, width, startY, startX); /* create a new window */
         box(window, 0, 0);
-                attron(COLOR_PAIR(1));
-         wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
+        attron(COLOR_PAIR(1));
+        wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
         attroff(COLOR_PAIR(1));
         wrefresh(window);
 
-        perlinNoise(chooseLevel[map]); // terrain generation after user selects difficulty
-
-
+        terrainGenAndCollision(chooseLevel[map]); // terrain generation after user selects difficulty
 
         mvprintw(1, 35, "ALTITUDE:         %d", abs(y - 29));
         mvprintw(2, 35, "HORIZONTAL SPEED: %d", xMove);
@@ -53,13 +47,6 @@ int lander()
         mvprintw(y + 1, x + 1, "*");
         mvprintw(y + 1, x + 2, "*");
         attroff(COLOR_PAIR(3));
-
-        // mvprintw(y + 2, x + 1, "''");
-
-        // refresh();
-
-        // nodelay(stdscr, TRUE); // use of no delay so the game doesn't pause to wait for user input
-        /*half delay used to make it easier to control the ship*/
 
         halfdelay(3);
         userInput = getch(); // get user input
@@ -133,7 +120,6 @@ int lander()
 
     } while (fuel > 0);
 
-    void initialize();
     while (true)
     {
 

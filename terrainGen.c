@@ -1,44 +1,20 @@
+#include "terrainGen.h"
 
-int terrainX, terrainY, terrainX1, terrainY1, terrainX2, terrainY2;
-
-// getmaxyx(stdscr, max_y, max_x);
-// int arrGround[] = {}
-
-/*Mountain 1 Left Side*/
-int mtnOneLeftX[] = {10, 9, 8, 7, 6, 5, 4, 3};
-int mtnOneLeftY[] = {23, 24, 25, 26, 27, 28, 29, 30};
-int mtnOneLeftSize = sizeof mtnOneLeftY / sizeof mtnOneLeftY[0];
-
-/*Mountain 1 Right Side*/
-int mtnOneRightX[] = {18, 17, 16, 15, 14, 13, 12, 11};
-int mtnOneRightY[] = {30, 29, 28, 27, 26, 25, 24, 23};
-int mtnOneRightSize = sizeof mtnOneRightY / sizeof mtnOneRightY[0];
-
-/*Mountain 2 Left Side*/
-int mtnTwoLeftX[] = {19, 20, 21, 22};
-int mtnTwoLeftY[] = {30, 29, 28, 27};
-int mtnTwoLeftSize = sizeof mtnTwoLeftY / sizeof mtnTwoLeftY[0];
-
-/*Mountain 2 Right Side*/
-int mtnTwoRightX[] = {27, 28, 29, 30};
-int mtnTwoRightY[] = {27, 28, 29, 30};
-int mtnTwoRightSize = sizeof mtnTwoRightY / sizeof mtnTwoRightY[0];
-
-int landPadOne[] = {23, 24, 25, 26};
-int sizeOfLandPadOne = sizeof landPadOne / sizeof landPadOne[0];
-
-void pressToStart();
-
-void landSuccess()
+int landSuccess(int multiplier)
 {
-    clear();
+    erase();
     yMove = 0;
     xMove = 0;
     attron(COLOR_PAIR(4));
+    attron(A_BOLD);
+    attron(A_UNDERLINE);
+    mvprintw(13, 55, "+%d POINTS", multiplier);
+    attroff(A_UNDERLINE);
+    attroff(A_BOLD);
     mvprintw(14, 47, "Successful Landing: +15 Fuel");
     attroff(COLOR_PAIR(4));
     fuel = fuel + 15;
-    score = score + 50;
+    score = score + multiplier;
     x = START_X, y = START_Y;
     yMove = START_YSPEED;
     xMove = START_XSPEED;
@@ -58,115 +34,123 @@ void landerCollision()
     pressToStart();
 }
 
-// Terrain Generation
-void terrainGen()
+int terrainGenAndCollision(int map)
 {
 
-    /*Ground generation*/
-    for (int i = 1; i < 127; i++)
-    {
-        mvprintw(30, i, "-");
-        if ((x + 1 == i) && (y + 1 >= 30) || (y + 1 >= 30) && (x + 2 == i)) // collision detection
-        {
-            landerCollision();
-        }
-    }
+    int coordY = 26;
+    srand(map);
 
-    /*                         Mountain One                        */
-    /*Mountain 1 Left Side*/
-    for (int i = 0; i < mtnOneLeftSize; i++)
+    for (int counter = 3; counter < 125; counter++)
     {
+        int random = rand() % (7 - 2 - 0) + 0;
+        double randomVal;
+        randomVal = (double)rand() / RAND_MAX * 1.0;
 
-        attron(COLOR_PAIR(1));
-        mvprintw(mtnOneLeftY[i], mtnOneLeftX[i], "/");
-        attroff(COLOR_PAIR(1));                                                                                               // print left side of mountain
-        if ((x + 1 == mtnOneLeftX[i]) && (y + 1 >= mtnOneLeftY[i]) || (y + 1 >= mtnOneLeftY[i]) && (x + 2 == mtnOneLeftX[i])) // collision detection
+        if (randomVal < random * 1 / 3)
         {
-            landerCollision();
-        }
-    }
-    /*Mountain 1 Right Side*/
-    for (int i = 0; i < mtnOneRightSize; i++)
-    {
-        attron(COLOR_PAIR(1));
-        mvprintw(mtnOneRightY[i], mtnOneRightX[i], "\\");
-        attroff(COLOR_PAIR(1));
-        if ((x + 1 == mtnOneRightX[i]) && (y + 1 >= mtnOneRightY[i]) || (y + 1 >= mtnOneRightY[i]) && (x + 2 == mtnOneRightX[i])) // collision detection
-        {
-            landerCollision();
-        }
-    }
 
-    /*                         Mountain Two                        */
-    /*Mountain 2 Left Side*/
-    for (int i = 0; i < mtnTwoLeftSize; i++)
-    {
-        mvprintw(27, 24, "2X");
-        attron(COLOR_PAIR(1));
-        mvprintw(mtnTwoLeftY[i], mtnTwoLeftX[i], "/");
-        attroff(COLOR_PAIR(1));
-        if ((x + 1 == mtnTwoLeftX[i]) && (y + 1 >= mtnTwoLeftY[i]) || (y + 1 >= mtnTwoLeftY[i]) && (x + 2 == mtnTwoLeftX[i])) // collision detection
-        {
-            landerCollision();
-        }
-    }
-    /*Mountain 2 Right Side*/
-    for (int i = 0; i < mtnTwoRightSize; i++)
-    {
-        attron(COLOR_PAIR(1));
-        mvprintw(mtnTwoRightY[i], mtnTwoRightX[i], "\\");
-        attroff(COLOR_PAIR(1));
-        if ((x + 1 == mtnTwoRightX[i]) && (y + 1 >= mtnTwoRightY[i]) || (y + 1 >= mtnTwoRightY[i]) && (x + 2 == mtnTwoRightX[i])) // collision detection
-        {
-            landerCollision();
-        }
-        /*landing pad 1*/
-        attron(COLOR_PAIR(4));
-        mvprintw(26, 23, "____");
-        attroff(COLOR_PAIR(4));
-        for (int j = 0; j < sizeOfLandPadOne; j++)
-        {
-            if ((x + 1 == landPadOne[j]) && (y + 1 >= 27) || (y + 1 >= 27) && (x + 2 == landPadOne[j])) //
+            mvprintw(coordY--, counter++, "/");
+            mvprintw(coordY, counter++, "__");
+
+            if ((x + 1 == counter) && (y + 1 >= coordY + 1) || (y + 1 >= coordY + 1) && (x + 2 == counter)) // collision detection for '__'
             {
-                if (yMove <= 3 & xMove == 0)
+                if (yMove <= 2 & xMove == 0)
                 {
-                    y = 25;
-                    landSuccess();
+                    y = coordY;
+                    landSuccess(50);
                 }
                 else
                 {
+                    y = coordY;
+                    landerCollision();
+                }
+            }
+            else if ((x + 1 == counter - 2) && (y + 1 >= coordY + 2) || (y + 1 >= coordY + 2) && (x + 2 == counter - 2))
+            { // collision detection for '/'
+                landerCollision();
+            }
+        }
+        else if (randomVal < random * 2 / 3)
+        {
+
+            mvprintw(coordY++ + 1, counter++, "\\");
+            mvprintw(coordY, counter++, "__");
+            if ((x + 1 == counter) && (y + 1 >= coordY + 1) || (y + 1 >= coordY + 1) && (x + 2 == counter))
+            {
+
+                if (yMove <= 2 & xMove == 0)
+                {
+                    y = coordY;
+                    landSuccess(50);
+                }
+                else
+                {
+                    y = coordY;
+                    landerCollision();
+                }
+            }
+            else if ((x + 1 == counter - 2) && (y + 1 >= coordY) || (y + 1 >= coordY) && (x + 2 == counter - 2))
+            { // collision detection for '/'
+                landerCollision();
+            }
+
+            if ((x + 1 == counter) && (y + 1 > coordY + 1) || (y + 1 > coordY + 1) && (x + 2 == counter)) // collision detection
+            {
+                if (yMove <= 2 & xMove == 0)
+                {
+                    y = coordY;
+                    landSuccess(50);
+                }
+                else
+                {
+                    y = coordY + 1;
                     landerCollision();
                 }
             }
         }
-    }
+        else
+        {
+            mvprintw(coordY, counter++ - 1, "___");
 
-    /* mountain #3 */
-    for (terrainY = 29, terrainX = 34; terrainY > 25, terrainX < 38;)
-    {
-        mvprintw(terrainY, terrainX, "/");
-        terrainY--;
-        terrainX++;
-    }
-    for (terrainY = 26, terrainX = 38; terrainY < 30, terrainX < 42;)
-    {
-        mvprintw(terrainY, terrainX, "\\");
-        terrainY++;
-        terrainX++;
-    }
+            int scoreMulti[] = {2, 3, 4, 5};
+            if (counter % 5 == 4)
+            {
+                mvprintw(coordY - 1, counter - 3, "^  ^"); // landing pad indication
+                mvprintw(coordY + 1, counter - 3, "|%dX|", scoreMulti[rand() % 4]);
 
-    /* mountain #4 */
-    for (terrainY = 29, terrainX = 42; terrainY > 22, terrainX < 49;)
-    {
-        mvprintw(terrainY, terrainX, "/");
-        terrainY--;
-        terrainX++;
+                if ((x + 1 == counter - 2) && (y + 1 > coordY) || (y + 1 > coordY) && (x + 2 == counter - 2)) // collision detection
+                {
+                    if (yMove <= 2 & xMove == 0)
+                    {
+                        y = coordY;
+                        landSuccess(100);
+                    }
+                    else
+                    {
+                        y = coordY;
+                        landerCollision();
+                    }
+                }
+            }
+            else if ((x + 1 == counter - 2) && (y + 1 >= coordY + 1) || (y + 1 >= coordY + 1) && (x + 2 == counter - 2))
+            {
+                if (yMove <= 2 & xMove == 0)
+                {
+                    y = coordY + 1;
+                    landSuccess(50); // if lander lands on flat land with no multiplier.
+                }
+                else
+                {
+                    y = coordY + 1;
+                    landerCollision();
+                }
+            }
+
+            // star generation
+            for (int starsCounter = 0; starsCounter < 1; starsCounter++)
+            {
+                mvprintw(rand() % (20 + 1 - 4) + 4, rand() % (120 + 1 - 4) + 4, ".");
+            }
+        }
     }
-    for (terrainY = 23, terrainX = 49; terrainY < 30, terrainX < 56;)
-    {
-        mvprintw(terrainY, terrainX, "\\");
-        terrainY++;
-        terrainX++;
-    }
-    /* end of terrain */
 }

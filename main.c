@@ -1,7 +1,6 @@
 #include "main.h"
-//#include "menu.c"
-#include "lander.c"
 #include "menu.c"
+#include "lander.c"
 
 void initialize()
 {
@@ -20,6 +19,7 @@ void initialize()
   int input;
   input = getch(); // wait for user input after printing the main menu
 
+  /*User can select difficulty and map*/
   switch (input)
   {
   case '1':
@@ -47,50 +47,7 @@ void initialize()
   lander();
 }
 
-int perlinNoise(int map)
-{
-
-  int coordY = 26;
-  srand(map);
-
-  for (int counter = 0; counter < 127; counter++)
-  {
-    int random = rand() % (7 - 2 - 0) + 0;
-    double randomVal;
-    randomVal = (double)rand() / RAND_MAX * 1.0;
-
-    if (randomVal < random * 1 / 3)
-    {
-      mvprintw(coordY--, counter++, "/");
-      mvprintw(coordY, counter++, "__");
-    }
-    else if (randomVal < random * 2 / 3)
-    {
-      mvprintw(coordY++ +1, counter++, "\\");
-      mvprintw(coordY, counter++, "__");
-    }
-    else
-    {
-      mvprintw(coordY, counter++ -1, "___");
-
-      int scoreMulti[] = {2, 3, 4, 5};
-      if (counter % 5 == 4)
-      {
-        mvprintw(coordY + 1, counter - 2, "%dX", scoreMulti[rand() % 4]);
-      }
-    }
-
-    // star generation
-    for(int starsCounter = 0; starsCounter < 1; starsCounter++){
-      mvprintw(rand() % (20 + 1 - 4) + 4, rand() % (120 + 1 - 4) + 4, ".");
-    }
-
-  }
-}
-
-
 void main()
 {
-
   initialize();
 }
