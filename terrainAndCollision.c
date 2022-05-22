@@ -132,7 +132,7 @@ int terrainGenAndCollision(int map)
                     }
                 }
             }
-            else if ((x + 1 == counter - 2) && (y + 1 >= coordY + 1) || (y + 1 >= coordY + 1) && (x + 2 == counter - 2) || (x + 1 == counter - 1 || x + 2 == counter - 1) && (y + 1 >= coordY+1))
+            else if ((x + 1 == counter - 2) && (y + 1 >= coordY + 1) || (y + 1 >= coordY + 1) && (x + 2 == counter - 2) || (x + 1 == counter - 1 || x + 2 == counter - 1) && (y + 1 >= coordY + 1))
             {
                 if (yMove <= 2 & xMove == 0)
                 {

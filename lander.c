@@ -95,24 +95,24 @@ int lander()
         y += yMove;
 
         /*x axis border collision*/
-        if (x > 126)
+        if (x > 123)
         {
-            x = 124;
+            x = 123;
             xMove = 0;
         }
-        else if (x < 0)
+        else if (x < 1)
         {
-            x = 0;
+            x = 1;
             xMove = 0;
         }
 
         /*y axis border collision*/
-        if (y > 30)
+        if (y > 28)
         {
-            y = 29;
+            y = 28;
             yMove = 0;
         }
-        else if (y < 0)
+        else if (y < 1)
         {
             y = 1;
             yMove = 0;
