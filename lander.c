@@ -9,6 +9,7 @@ int lander()
     height = 33;
     width = 128;
     startY = startX = 0;
+    frameCounter = 0;
 
     /* colour pairs */
     init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
@@ -30,18 +31,18 @@ int lander()
         mvprintw(1, 2, "SCORE: %d", score);
         mvprintw(2, 2, "FUEL:  %d", fuel);
         mvprintw(3, 2, "FRAME COUNTER: %d", frameCounter);
-        mvprintw(1, 99, "ALTITUDE:         %d", abs(y - 29));
-        mvprintw(2, 99, "HORIZONTAL SPEED: %f", xMove);
-        mvprintw(3, 99, "VERTICAL SPEED:   %f", yMove);
+        mvprintw(1, 104, "ALTITUDE:         %d", abs(y - 29));
+        mvprintw(2, 104, "HORIZONTAL SPEED: %0.1f", xMove);
+        mvprintw(3, 104, "VERTICAL SPEED:   %0.1f", yMove);
 
-        mvprintw(2, 45, "- - - - LUNAR LANDER - - - -");
+        mvprintw(2, 47, "- - - - LUNAR LANDER - - - -");
         
         for(int i = 1; i < 127; i++){
         mvprintw(4, i, "-");
         }
         for(int j = 1; j < 4; j++){
             mvprintw(j, 21, "|");
-            mvprintw(j, 95, "|");
+            mvprintw(j, 100, "|");
         }
 
         /* print out the lander */
