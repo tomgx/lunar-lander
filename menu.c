@@ -1,5 +1,7 @@
 #include "menu.h"
 
+/* print out the main menu */
+
 void titleLogo()
 {
   init_pair(1, COLOR_RED, COLOR_BLACK);
@@ -32,7 +34,7 @@ void titleRules()
   mvprintw(20, 57, "HOW TO PLAY");
   attroff(A_UNDERLINE);
   attron(A_BOLD);
-  mvprintw(21, 16, "| Land on landing pad with a Vertical velocity of less than or equal to 3 to gain points and fuel |");
+  mvprintw(21, 16, "| Land on landing pad with a Vertical velocity of less than or equal to 2 to gain points and fuel |");
   mvprintw(22, 35, "| Crashing removes 20 units of fuel from the lander |");
   attroff(A_BOLD);
   mvprintw(22, 35, "| Crashing removes 20 units of fuel from the lander |");

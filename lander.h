@@ -1,19 +1,28 @@
+/* Libraries */
 #include <ncurses.h>
 #include <stdlib.h>
 
-#define START_XSPEED 12
-#define START_YSPEED 0
+/* Constants */
+#define START_XSPEED 10.0
+#define START_YSPEED 0.0
 #define START_FUEL 100
-#define START_X -4
-#define START_Y 4
+#define START_X 1
+#define START_Y 5
 
-/*ship starting position, fuel, score*/
-int x = START_X, y = START_Y;
-int fuel = START_FUEL;
-int score = 0;
-int yMove = START_YSPEED;
-int xMove = START_XSPEED;
-int map;
+/* Global variables */
+int x = START_X;                /* x starting position */   
+int y = START_Y;                /* y starting position */
+int fuel = START_FUEL;          /* starting fuel */
+int score = 0;                  /* starting score */
+float yMove = START_YSPEED;     /* starting vertical velocity */
+float xMove = START_XSPEED;     /* starting horizontal velocity */
+int map;                        /* map selection */
+int frameCounter;               /* counter for how many frames have passed by */
+int userInput;
+int height, width, startY, startX;
+int next_x = 0;
+int direction = 0;
 
+/* Functions */
 int terrainGenAndCollision(int map);
 void initialize();

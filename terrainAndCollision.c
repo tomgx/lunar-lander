@@ -2,6 +2,8 @@
 
 int landSuccess(int multiplier)
 {
+    init_pair(4, COLOR_GREEN, COLOR_BLACK);
+
     erase();
     yMove = 0;
     xMove = 0;
@@ -21,23 +23,26 @@ int landSuccess(int multiplier)
     pressToStart();
 }
 
-void landerCollision()
+int landerCollision(int crash)
 {
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+
     erase();
     attron(COLOR_PAIR(1));
     mvprintw(14, 48, "You have crashed: -20 FUEL");
     attroff(COLOR_PAIR(1));
-    fuel = fuel - 20;
+    fuel = fuel - crash;
     x = START_X, y = START_Y;
     yMove = START_YSPEED;
     xMove = START_XSPEED;
     pressToStart();
 }
 
+/* Function for generation the terrain and detecting collision */
 int terrainGenAndCollision(int map)
 {
 
-    int coordY = 26;
+    int coordY = 26;    /* terrain generation starting point */
     srand(map);
 
     for (int counter = 3; counter < 125; counter++)
@@ -48,11 +53,10 @@ int terrainGenAndCollision(int map)
 
         if (randomVal < random * 1 / 3)
         {
-
             mvprintw(coordY--, counter++, "/");
             mvprintw(coordY, counter++, "__");
 
-            if ((x + 1 == counter) && (y + 1 >= coordY + 1) || (y + 1 >= coordY + 1) && (x + 2 == counter)) // collision detection for '__'
+            if ((x + 1 == counter) && (y + 1 >= coordY + 1) || (y + 1 >= coordY + 1) && (x + 2 == counter))     /* collision detection for '__' */
             {
                 if (yMove <= 2 & xMove == 0)
                 {
@@ -62,12 +66,12 @@ int terrainGenAndCollision(int map)
                 else
                 {
                     y = coordY;
-                    landerCollision();
+                    landerCollision(20);
                 }
             }
-            else if ((x + 1 == counter - 2) && (y + 1 >= coordY + 2) || (y + 1 >= coordY + 2) && (x + 2 == counter - 2))
-            { // collision detection for '/'
-                landerCollision();
+            else if ((x + 1 == counter - 2) && (y + 1 >= coordY + 2) || (y + 1 >= coordY + 2) && (x + 2 == counter - 2))    /* collision detection for '/' */
+            { 
+                landerCollision(20);
             }
         }
         else if (randomVal < random * 2 / 3)
@@ -75,7 +79,7 @@ int terrainGenAndCollision(int map)
 
             mvprintw(coordY++ + 1, counter++, "\\");
             mvprintw(coordY, counter++, "__");
-            if ((x + 1 == counter) && (y + 1 >= coordY + 1) || (y + 1 >= coordY + 1) && (x + 2 == counter))
+            if ((x + 1 == counter) && (y + 1 >= coordY + 1) || (y + 1 >= coordY + 1) && (x + 2 == counter))     /* collision detection for '__' */
             {
 
                 if (yMove <= 2 & xMove == 0)
@@ -86,15 +90,15 @@ int terrainGenAndCollision(int map)
                 else
                 {
                     y = coordY;
-                    landerCollision();
+                    landerCollision(20);
                 }
             }
-            else if ((x + 1 == counter - 2) && (y + 1 >= coordY) || (y + 1 >= coordY) && (x + 2 == counter - 2))
-            { // collision detection for '/'
-                landerCollision();
+            else if ((x + 1 == counter - 2) && (y + 1 >= coordY) || (y + 1 >= coordY) && (x + 2 == counter - 2))    /* collision detection for '\' */
+            {
+                landerCollision(20);
             }
 
-            if ((x + 1 == counter) && (y + 1 > coordY + 1) || (y + 1 > coordY + 1) && (x + 2 == counter)) // collision detection
+            if ((x + 1 == counter) && (y + 1 > coordY + 1) || (y + 1 > coordY + 1) && (x + 2 == counter))   /* collision detection for '__' */
             {
                 if (yMove <= 2 & xMove == 0)
                 {
@@ -104,21 +108,20 @@ int terrainGenAndCollision(int map)
                 else
                 {
                     y = coordY + 1;
-                    landerCollision();
+                    landerCollision(20);
                 }
             }
         }
         else
         {
             mvprintw(coordY, counter++ - 1, "___");
-
-            int scoreMulti[] = {2, 3, 4, 5};
+ 
             if (counter % 5 == 4)
             {
-                mvprintw(coordY - 1, counter - 3, "^  ^"); // landing pad indication
-                mvprintw(coordY + 1, counter - 3, "|%dX|", scoreMulti[rand() % 4]);
+                mvprintw(coordY - 1, counter - 3, "^  ^");  /* landing pad indication */
+                mvprintw(coordY + 1, counter - 3, "|%dX|", scoreMulti[rand() % 4]); /* print multiplier under landing pads */
 
-                if ((x + 1 == counter - 2) && (y + 1 > coordY) || (y + 1 > coordY) && (x + 2 == counter - 2)) // collision detection
+                if ((x + 1 == counter - 2) && (y + 1 > coordY) || (y + 1 > coordY) && (x + 2 == counter - 2)) /* collision detection */
                 {
                     if (yMove <= 2 & xMove == 0)
                     {
@@ -128,7 +131,7 @@ int terrainGenAndCollision(int map)
                     else
                     {
                         y = coordY;
-                        landerCollision();
+                        landerCollision(20);
                     }
                 }
             }
@@ -142,11 +145,11 @@ int terrainGenAndCollision(int map)
                 else
                 {
                     y = coordY + 1;
-                    landerCollision();
+                    landerCollision(20);
                 }
             }
 
-            // star generation
+            /* star background generation */
             for (int starsCounter = 0; starsCounter < 1; starsCounter++)
             {
                 mvprintw(rand() % (20 + 1 - 4) + 4, rand() % (120 + 1 - 4) + 4, ".");

@@ -4,11 +4,11 @@
 
 void initialize()
 {
-  initscr();
+  initscr();    /* initialize screen */
   keypad(stdscr, true);
   noecho();
   curs_set(FALSE);
-  start_color(); /* Start the color functionality */
+  start_color();    /* Start the color functionality */
   cbreak();
 
   titleLogo();
@@ -16,34 +16,34 @@ void initialize()
   titleControls();
   titleRules();
 
-  int input;
-  input = getch(); // wait for user input after printing the main menu
+  input = getch();
 
-  /*User can select difficulty and map*/
+  /* User can select difficulty and map */
   switch (input)
   {
   case '1':
-    fuel = 100;
+    fuel = DIFFICULTY_ONE;
     map = 0;
     break;
   case '2':
-    fuel = 80;
+    fuel = DIFFICULTY_TWO;
     map = 1;
     break;
   case '3':
-    fuel = 60;
+    fuel = DIFFICULTY_THREE;
     map = 2;
     break;
   case '4':
-    fuel = 40;
+    fuel = DIFFICULTY_FOUR;
     map = 3;
     break;
-  default: // if the user presses something other than 1 - 4. set the fuel to 100 by default.
-    fuel = 100;
+  default:    /* if the user presses something other than 1 - 4. set the difficulty to 1 by default and map to 0. */
+    fuel = DIFFICULTY_ONE;
     map = 0;
     break;
   }
-  score = 0;
+
+  score = 0;    /* set score to 0*/
   lander();
 }
 
