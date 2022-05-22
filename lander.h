@@ -3,22 +3,23 @@
 #include <stdlib.h>
 
 /* Constants */
-#define START_XSPEED 10.0
-#define START_YSPEED 0.0
-#define START_FUEL 100
-#define START_X 1
-#define START_Y 5
+#define START_XSPEED 10.0       /* starting horizontal velocity */
+#define START_YSPEED 0.0        /* starting vertical velocity */
+#define START_FUEL 100          /* starting fuel */
+#define START_X 1               /* x starting position */   
+#define START_Y 5               /* y starting position */
+#define START_SCORE 0           /* starting score */
 
 /* Global variables */
-int x = START_X;                /* x starting position */   
-int y = START_Y;                /* y starting position */
-int fuel = START_FUEL;          /* starting fuel */
-int score = 0;                  /* starting score */
-float yMove = START_YSPEED;     /* starting vertical velocity */
-float xMove = START_XSPEED;     /* starting horizontal velocity */
+int x = START_X;                
+int y = START_Y;                
+int fuel = START_FUEL;
+int score = START_SCORE;                  
+float yMove = START_YSPEED;     
+float xMove = START_XSPEED;     
 int map;                        /* map selection */
 int frameCounter;               /* counter for how many frames have passed by */
-int userInput;
+int userInput;                  /* user input */
 int height, width, startY, startX;
 int next_x = 0;
 int direction = 0;
