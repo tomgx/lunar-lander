@@ -127,12 +127,12 @@ int terrainGenAndCollision(int map)
                     if (yMove <= 2 & xMove == 0)
                     {
                         y = coordY;
-                        landSuccess(100);
+                        landSuccess(100);   /* if lander lands on flat land with multiplier - award with 100 points */
                     }
                     else
                     {
                         y = coordY;
-                        landerCollision(20);
+                        landerCollision(20);    /* remove 20 units of fuel when lander crashese */
                     }
                 }
             }
@@ -141,7 +141,7 @@ int terrainGenAndCollision(int map)
                 if (yMove <= 2 & xMove == 0)
                 {
                     y = coordY + 1;
-                    landSuccess(50);    /* if lander lands on flat land with no multiplier. */
+                    landSuccess(50);    /* if lander lands on flat land with no multiplier - award with 50 points */
                 }
                 else
                 {
