@@ -70,7 +70,7 @@ int lander()
         }
         else if (yMove != 5)
         {
-            yMove = yMove + 0.5;    /* gravity value */
+            yMove += 0.5;    /* gravity value */
         }
 
         /*Horizontal Movement*/
@@ -86,11 +86,11 @@ int lander()
         }
         else if (xMove > 0)
         {
-            xMove = xMove - 0.5;
+            xMove -=0.5;
         }
         else if (xMove < 0)
         {
-            xMove = xMove + 0.5;    /* resistance value */
+            xMove += 0.5;    /* resistance value */
         }
         else if (xMove == 0)
         {
