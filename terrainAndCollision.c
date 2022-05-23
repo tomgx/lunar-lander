@@ -45,6 +45,7 @@ int terrainGenAndCollision(int map)
     int coordY = 26;    /* terrain generation starting point */
     srand(map);
 
+
     for (int counter = 3; counter < 125; counter++)
     {
         int random = rand() % (7 - 2 - 0) + 0;
@@ -140,7 +141,7 @@ int terrainGenAndCollision(int map)
                 if (yMove <= 2 & xMove == 0)
                 {
                     y = coordY + 1;
-                    landSuccess(50); // if lander lands on flat land with no multiplier.
+                    landSuccess(50);    /* if lander lands on flat land with no multiplier. */
                 }
                 else
                 {
@@ -149,11 +150,9 @@ int terrainGenAndCollision(int map)
                 }
             }
 
-            /* star background generation */
-            for (int starsCounter = 0; starsCounter < 1; starsCounter++)
-            {
+                /* star background generation */
                 mvprintw(rand() % (20 + 1 - 4) + 4, rand() % (120 + 1 - 4) + 4, ".");
-            }
+            
         }
     }
 }
